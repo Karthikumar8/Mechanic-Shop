@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-3">Work Orders</h2>
+
+<input class="form-control mb-3" id="searchInput" placeholder="Search...">
+
+<table class="table table-dark table-striped">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Status</th>
+<th>Vehicle</th>
+<th>Mechanic</th>
+<th>Cost</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="tableBody">
+
+{% for order in workorders %}
+
+<tr>
+
+<td>{{order.id}}</td>
+<td>{{order.description}}</td>
+<td>{{order.status}}</td>
+<td>{{order.vehicle}}</td>
+<td>{{order.mechanic}}</td>
+<td>{{order.estimated_cost}}</td>
+
+<td>
+
+<a class="btn btn-warning btn-sm"
+href="{% url 'workorder_update' order.id %}">Edit</a>
+
+<a class="btn btn-danger btn-sm"
+href="{% url 'workorder_delete' order.id %}">Delete</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+<script>
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", function(){
+
+let filter = searchInput.value.toLowerCase();
+
+let rows = document.querySelectorAll("#tableBody tr");
+
+rows.forEach(row => {
+
+let text = row.innerText.toLowerCase();
+
+row.style.display = text.includes(filter) ? "" : "none";
+
+});
+
+});
+
+</script>
+
+{% endblock %}
